@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "HoneyChain Traceability App"
+description = "A traceability dashboard connecting beekeepers, honey batches, and consumers from hive to home with environmental monitoring, analytics, QR verification, and blockchain journey views."
+version = "1.0.0"
+id = "artifacts/honeychain"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23176
+
+[services.development]
+run = "pnpm --filter @workspace/honeychain run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/honeychain", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/honeychain/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23176"
+BASE_PATH = "/"
